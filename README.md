@@ -3,7 +3,7 @@
 A simple java program allowing you to tweet and view your home timeline.
 
 Usage (from command line):
-1) cd src
+1) `cd src`
 
 2) Use a text editor to add your Twitter application keys to twitter4j.properties
 
