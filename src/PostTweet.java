@@ -17,21 +17,17 @@ public class PostTweet {
         String tweet = s.nextLine();
 
         try {
-            Status status = post(tweet);
-            System.out.println("Successfully tweeted: " + status.getText());
+            Twitter twitter = TwitterFactory.getSingleton();
+            Status status = null;
+            if (isValidTweet(tweet)) {
+                status = twitter.updateStatus(tweet);
+                System.out.println("Successfully tweeted: " + status.getText());
+            } else {
+                System.out.println("Tweet must be between 1-280 chars.");
+            }
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-    }
-
-    // Posts the given tweet
-    public static Status post(String tweet) throws TwitterException {
-        Twitter twitter = TwitterFactory.getSingleton();
-        Status status = null;
-        if (isValidTweet(tweet)) {
-            status = twitter.updateStatus(tweet);
-        }
-        return status;
     }
 
     // Checks if tweet is valid
