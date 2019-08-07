@@ -12,6 +12,6 @@ oauth.consumerSecret=******************************************
 oauth.accessToken=**************************************************
 oauth.accessTokenSecret=******************************************`
 
-3) Modify the two main class tags in pom.xml to either `<mainClass>com.khoros.twitter.GetHomeTimeline</mainClass>` or `<mainClass>com.khoros.twitter.PostTweet</mainClass>` to run each respective program
+3) Modify the two main class tags in pom.xml to either `<mainClass>com.khoros.twitter.GetHomeTimeline</mainClass>` or `<mainClass>com.khoros.twitter.PostTweet</mainClass>` for whichever program you want to run
 
 4) Run program: `mvn clean install` `mvn exec:java`
