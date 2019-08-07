@@ -1,3 +1,5 @@
+package com.khoros.twitter;
+
 // Twitter4j imports
 import twitter4j.Status;
 import twitter4j.Twitter;

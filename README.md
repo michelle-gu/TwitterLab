@@ -15,13 +15,13 @@ oauth.accessTokenSecret=******************************************
 
 3) Compile java files
 `javac -cp ../lib/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar GetHomeTimeline.java`
-`javac -cp ../lib/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar PostTweet.java`
+`javac -cp ../lib/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar com.khoros.twitter.PostTweet.java`
 
 4) Create jars 
-    1) Modify Main-Class attribute in MANIFEST.MF to `PostTweet` and create jar `jar -cfm PostTweet.jar MANIFEST.MF PostTweet.class`
+    1) Modify Main-Class attribute in MANIFEST.MF to `com.khoros.twitter.PostTweet` and create jar `jar -cfm com.khoros.twitter.PostTweet.jar MANIFEST.MF com.khoros.twitter.PostTweet.class`
     2) Modify Main-Class attribute in MANIFEST.MF to  `GetHomeTimeline` and create jar
 `jar -cfm GetHomeTimeline.jar MANIFEST.MF GetHomeTimeline.class`
 
 5) Run programs
-    1) To run program 1: `java -jar PostTweet.jar`
+    1) To run program 1: `java -jar com.khoros.twitter.PostTweet.jar`
     2) To run program 2: `java -jar GetHomeTimeline.jar`
