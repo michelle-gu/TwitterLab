@@ -19,7 +19,7 @@ public class GetHomeTimeline {
             e.printStackTrace();
         }
         System.out.println("Your home timeline:");
-        displayHomeTimeline(statuses);
+        System.out.println(statuses.toString());
     }
 
     // Get home timeline
@@ -28,14 +28,6 @@ public class GetHomeTimeline {
         List<Status> statuses = null;
         statuses = twitter.getHomeTimeline();
         return statuses;
-    }
-
-    // Print home timeline
-    public static void displayHomeTimeline(List<Status> statuses) {
-        for (Status status : statuses) {
-            System.out.println(status.getUser().getName() + ":" +
-                    status.getText());
-        }
     }
 
 }
