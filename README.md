@@ -4,7 +4,6 @@ A simple java program allowing you to tweet and view your home timeline.
 
 Usage (from command line):
 1) Create file `twitter4j.properties` with your Twitter application keys following this format:
-<br>
 `debug=true
 oauth.consumerKey=*********************
 oauth.consumerSecret=******************************************
