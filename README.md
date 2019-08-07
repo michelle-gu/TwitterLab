@@ -3,16 +3,15 @@
 A simple java program allowing you to tweet and view your home timeline.
 
 Usage (from command line):
-1) Create file `twitter4j.properties` with your Twitter application keys following this format:
+1) Change directory to src folder `cd src`
+
+2) Create file `twitter4j.properties` with your Twitter application keys following this format:
 `debug=true
 oauth.consumerKey=*********************
 oauth.consumerSecret=******************************************
 oauth.accessToken=**************************************************
 oauth.accessTokenSecret=******************************************
 `
-
-2) Change directory to src folder `cd src`
-
 3) Compile java files
 `javac -cp ../lib/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar GetHomeTimeline.java`
 `javac -cp ../lib/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar PostTweet.java`
