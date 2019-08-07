@@ -10,12 +10,8 @@ Usage (from command line):
 oauth.consumerKey=*********************
 oauth.consumerSecret=******************************************
 oauth.accessToken=**************************************************
-oauth.accessTokenSecret=******************************************
-`
-3) Compile java files
-`javac -cp ../lib/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar GetHomeTimeline.java`
-`javac -cp ../lib/twitter4j-4.0.7/lib/twitter4j-core-4.0.7.jar PostTweet.java`
+oauth.accessTokenSecret=******************************************`
 
-4) Modify the two main class tags in pom.xml to either `<mainClass>com.khoros.twitter.GetHomeTimeline</mainClass>` or `<mainClass>com.khoros.twitter.PostTweet</mainClass>` to run each respective program
+3) Modify the two main class tags in pom.xml to either `<mainClass>com.khoros.twitter.GetHomeTimeline</mainClass>` or `<mainClass>com.khoros.twitter.PostTweet</mainClass>` to run each respective program
 
-5) Run program: `mvn clean install` `mvn exec:java`
+4) Run program: `mvn clean install` `mvn exec:java`
