@@ -13,10 +13,12 @@ Usage (from command line):
 
 4a) Modify Main-Class attribute in MANIFEST.MF to `PostTweet` and create jar
 `jar -cfm GetHomeTimeline.jar MANIFEST.MF PostTweet.class`
+<br>
 4b) Modify Main-Class attribute in MANIFEST.MF to  `GetHomeTimeline` and create jar
 `jar -cfm GetHomeTimeline.jar MANIFEST.MF GetHomeTimeline.class`
 
 5a) To run program 1: 
 `java -jar PostTweet.jar`
+<br>
 5b) To run program 2: 
 `java -jar GetHomeTimeline.jar`
