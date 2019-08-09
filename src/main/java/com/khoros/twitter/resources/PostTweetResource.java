@@ -25,21 +25,27 @@ public class PostTweetResource {
     public Response postTweet(Message message) {
         // Post message
         String text = message.getText();
-        System.out.println("message text: " + message.getText());
         Status status = null;
         try {
             Twitter twitter = TwitterFactory.getSingleton();
             if (text.length() > 0 || text.length() <= 280) {
                 status = twitter.updateStatus(text);
-                System.out.println("Successfully tweeted: " + status.getText());
             } else {
-                System.out.println("Tweet must be between 1-280 chars.");
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .header("Invalid tweet","Tweet must be between 1-280 characters.")
+                        .type(MediaType.APPLICATION_JSON_TYPE)
+                        .build();
             }
         } catch (TwitterException e) {
-            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .header("Twitter exception", e.getErrorMessage())
+                    .type(MediaType.APPLICATION_JSON_TYPE)
+                    .build();
         }
 
-        return Response.noContent().build();
+        return Response.status(Response.Status.OK)
+                .header("Successfully tweeted", status.getText())
+                .build();
     }
 }
 

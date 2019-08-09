@@ -14,7 +14,6 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
 
     @Override
     public void initialize(Bootstrap<TwitterLabConfiguration> bootstrap) {
-        // nothing to do yet
     }
 
     @Override
