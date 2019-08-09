@@ -21,7 +21,6 @@ public class PostTweetResource {
     @POST
     @Timed
     public Response postTweet(Message message) {
-        // Post message
         String text = message.getText();
         StatusMessage statusMessage = new StatusMessage();
         try {
