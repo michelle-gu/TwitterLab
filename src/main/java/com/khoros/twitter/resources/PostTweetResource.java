@@ -34,7 +34,7 @@ public class PostTweetResource {
             if (text.length() > 0 && text.length() <= CHAR_LIMIT) {
                 Twitter twitter = TwitterFactory.getSingleton();
                 Status status = twitter.updateStatus(text);
-                statusMessage.setStatus("Successfully tweeted: " + status.getText());
+                statusMessage.setStatus("Successfully tweeted to "+ twitter.getScreenName() +"'s account: " + status.getText());
                 return Response.status(Response.Status.OK)
                         .entity(statusMessage)
                         .type(MediaType.APPLICATION_JSON)
