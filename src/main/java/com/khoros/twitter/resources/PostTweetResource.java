@@ -40,7 +40,7 @@ public class PostTweetResource {
                         .build();
             }
         } catch (TwitterException e) {
-            statusMessage.setStatus("Twitter exception: " + e.getErrorMessage());
+            statusMessage.setStatus("Error posting tweet. Try again later!");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(statusMessage)
                     .type(MediaType.APPLICATION_JSON)
