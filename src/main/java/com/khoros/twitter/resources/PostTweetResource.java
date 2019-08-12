@@ -36,7 +36,7 @@ public class PostTweetResource {
                 Status status = twitter.updateStatus(text);
                 statusMessage.setStatus("Successfully tweeted to "+ twitter.getScreenName() +"'s account: " + status.getText());
                 return Response.status(Response.Status.OK)
-                        .entity(statusMessage)
+                        .entity(status)
                         .type(MediaType.APPLICATION_JSON)
                         .build();
             } else {
