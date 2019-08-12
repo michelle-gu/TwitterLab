@@ -23,6 +23,13 @@ public class PostTweetResource {
     public Response postTweet(Message message) {
         String text = message.getText();
         StatusMessage statusMessage = new StatusMessage();
+        if (text == null) {
+            statusMessage.setStatus("Error posting tweet. Try again later!");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(statusMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
         try {
             if (text.length() > 0 && text.length() <= CHAR_LIMIT) {
                 Twitter twitter = TwitterFactory.getSingleton();
