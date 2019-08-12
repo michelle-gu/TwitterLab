@@ -24,7 +24,7 @@ public class PostTweetResource {
         String text = message.getText();
         StatusMessage statusMessage = new StatusMessage();
         if (text == null) {
-            statusMessage.setStatus("Error posting tweet. Try again later!");
+            statusMessage.setStatus("Invalid JSON - use format: {\"text\":\"<your tweet here>\"}");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(statusMessage)
                     .type(MediaType.APPLICATION_JSON)
@@ -40,7 +40,7 @@ public class PostTweetResource {
                         .type(MediaType.APPLICATION_JSON)
                         .build();
             } else {
-                statusMessage.setStatus("Invalid tweet: Tweet must be between 1-280 characters.");
+                statusMessage.setStatus("Invalid tweet: Tweet must be between 1-280 characters");
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity(statusMessage)
                         .type(MediaType.APPLICATION_JSON)
