@@ -2,6 +2,7 @@ package com.khoros.twitter;
 
 import com.khoros.twitter.core.Message;
 import com.khoros.twitter.resources.PostTweetResource;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
@@ -12,6 +13,8 @@ import twitter4j.TwitterException;
 import javax.ws.rs.core.Response;
 
 public class TestPostTweetResource {
+
+    private static final int CHAR_LIMIT = 280;
 
     private PostTweetResource postTweetResource;
     private Twitter mockedTwitter;
@@ -37,10 +40,7 @@ public class TestPostTweetResource {
 
     @Test
     public void testPostLongTweet() {
-        Message message = new Message("Test Test Test Test Test Test Test Test Test Test Test Test Test Test " +
-                "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test " +
-                "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test" +
-                " Test Test Test Test");
+        Message message = new Message(StringUtils.repeat("*", CHAR_LIMIT + 1));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                 postTweetResource.postTweet(message).getStatus());
     }
