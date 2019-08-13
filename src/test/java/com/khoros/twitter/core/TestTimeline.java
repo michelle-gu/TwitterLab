@@ -1,4 +1,4 @@
-package com.khoros.twitter;
+package com.khoros.twitter.core;
 
 import com.khoros.twitter.core.Timeline;
 import org.junit.Test;

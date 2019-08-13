@@ -1,4 +1,4 @@
-package com.khoros.twitter;
+package com.khoros.twitter.resources;
 
 import com.khoros.twitter.resources.GetTimelineResource;
 import org.junit.Before;

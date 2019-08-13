@@ -1,4 +1,4 @@
-package com.khoros.twitter;
+package com.khoros.twitter.core;
 
 import com.khoros.twitter.core.Message;
 import org.junit.Test;
