@@ -19,11 +19,20 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class GetTimelineResource {
 
+    private Twitter twitter;
+
+    public GetTimelineResource(Twitter twitter) {
+        this.twitter = twitter;
+    }
+
+    public GetTimelineResource() {
+        twitter = TwitterFactory.getSingleton();
+    }
+
     @GET
     @Timed
     public Response getTimeline() {
         try {
-            Twitter twitter = TwitterFactory.getSingleton();
             List<Status> timeline = twitter.getHomeTimeline();
             return Response.status(Response.Status.OK)
                     .entity(new Timeline(timeline))
