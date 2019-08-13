@@ -16,7 +16,10 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class PostTweetResource {
 
-    private static final int CHAR_LIMIT = 280;
+    static final int CHAR_LIMIT = 280;
+    static final String EXCEPTION_STR = "Error posting tweet. Try again later!";
+    static final String CHAR_LIMIT_STR = "Invalid tweet: Tweet must be between 1-" + CHAR_LIMIT + " characters";
+    static final String JSON_FORMAT_STR = "Invalid JSON - use format: {\"text\":\"<your tweet here>\"}";
 
     private Twitter twitter;
 
@@ -34,7 +37,7 @@ public class PostTweetResource {
         String text = message.getText();
         StatusMessage statusMessage = new StatusMessage();
         if (text == null) {
-            statusMessage.setStatus("Invalid JSON - use format: {\"text\":\"<your tweet here>\"}");
+            statusMessage.setStatus(JSON_FORMAT_STR);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(statusMessage)
                     .type(MediaType.APPLICATION_JSON)
@@ -48,14 +51,14 @@ public class PostTweetResource {
                         .type(MediaType.APPLICATION_JSON)
                         .build();
             } else {
-                statusMessage.setStatus("Invalid tweet: Tweet must be between 1-280 characters");
+                statusMessage.setStatus(CHAR_LIMIT_STR);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity(statusMessage)
                         .type(MediaType.APPLICATION_JSON)
                         .build();
             }
         } catch (TwitterException e) {
-            statusMessage.setStatus("Error posting tweet. Try again later!");
+            statusMessage.setStatus(EXCEPTION_STR);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(statusMessage)
                     .type(MediaType.APPLICATION_JSON)
