@@ -1,5 +1,6 @@
 package com.khoros.twitter.resources;
 
+import com.khoros.twitter.core.StatusMessage;
 import com.khoros.twitter.resources.GetTimelineResource;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,8 @@ import twitter4j.TwitterException;
 import javax.ws.rs.core.Response;
 
 public class TestGetTimelineResource {
+
+    private static final String EXCEPTION_STR = "Error getting home timeline. Try again later!";
 
     private GetTimelineResource getTimelineResource;
     private Twitter mockedTwitter;
@@ -22,14 +25,16 @@ public class TestGetTimelineResource {
 
     @Test
     public void testGetTimeline() {
-        assertEquals(Response.Status.OK.getStatusCode(), getTimelineResource.getTimeline().getStatus());
+        Response testResponse = getTimelineResource.getTimeline();
+        assertEquals(Response.Status.OK.getStatusCode(), testResponse.getStatus());
     }
 
     @Test
     public void testGetTimelineException() {
         when(getTimelineResource.getTimeline()).thenThrow(new TwitterException("Test exception"));
-        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-                getTimelineResource.getTimeline().getStatus());
+        Response testResponse = getTimelineResource.getTimeline();
+        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
+        assertEquals(EXCEPTION_STR, ((StatusMessage)testResponse.getEntity()).getStatus());
     }
 
 }
