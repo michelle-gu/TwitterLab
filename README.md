@@ -17,9 +17,10 @@ oauth.accessTokenSecret=******************************************`
 3) To post tweet: `curl -POST "localhost:8080/api/1.0/twitter/tweet" -H "Content-Type: application/json" -d '{"text":"<Your tweet here>"}'`
     <br>To get timeline: `curl -GET "localhost:8080/api/1.0/twitter/timeline"`
     
-    
 To run tests:
-1) `mvn test`
+1) `mvn test` or `mvn clean install`
 
 To run code coverage:
-1) ``
+1) `mvn test`
+2) `mvn jacoco:report`
+3) Open target/site/jacoco/index.html to see code coverage
