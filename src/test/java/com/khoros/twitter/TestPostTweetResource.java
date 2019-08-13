@@ -56,6 +56,12 @@ public class TestPostTweetResource {
     }
 
 
-    // TODO: Test for invalid JSON case
+    @Test
+    public void testPostNullTweet() {
+        // Ex: Invalid JSON passed in
+        Message message = new Message(null);
+        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+                postTweetResource.postTweet(message).getStatus());
+    }
 
 }
