@@ -4,27 +4,34 @@ import com.khoros.twitter.resources.GetTimelineResource;
 import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
+
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 import javax.ws.rs.core.Response;
 
 public class TestGetTimelineResource {
 
-    private GetTimelineResource mockedGetTimelineResource;
+    private GetTimelineResource getTimelineResource;
     private Twitter mockedTwitter;
 
     @Before
     public void setUp() {
         mockedTwitter = mock(Twitter.class);
-        mockedGetTimelineResource = new GetTimelineResource(mockedTwitter);
+        getTimelineResource = new GetTimelineResource(mockedTwitter);
     }
 
     @Test
     public void testGetTimeline() {
-        assertEquals(Response.Status.OK.getStatusCode(), mockedGetTimelineResource.getTimeline().getStatus());
+        assertEquals(Response.Status.OK.getStatusCode(), getTimelineResource.getTimeline().getStatus());
     }
 
-    // TODO: Test for invalid credentials case, twitter exception case
+    @Test
+    public void testGetTimelineException() {
+        when(getTimelineResource.getTimeline()).thenThrow(new TwitterException("Test exception"));
+        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+                getTimelineResource.getTimeline().getStatus());
+    }
 
 }
