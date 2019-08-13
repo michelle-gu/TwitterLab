@@ -5,10 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.*;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-
 import javax.ws.rs.core.Response;
 
 public class TestGetTimelineResource {

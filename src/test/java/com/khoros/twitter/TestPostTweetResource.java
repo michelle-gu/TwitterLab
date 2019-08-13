@@ -7,10 +7,8 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-
 import javax.ws.rs.core.Response;
 
 public class TestPostTweetResource {
@@ -54,7 +52,6 @@ public class TestPostTweetResource {
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
                 postTweetResource.postTweet(message).getStatus());
     }
-
 
     @Test
     public void testPostNullTweet() {
