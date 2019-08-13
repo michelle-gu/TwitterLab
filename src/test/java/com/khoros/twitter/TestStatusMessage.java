@@ -1,6 +1,7 @@
 package com.khoros.twitter;
 
 import com.khoros.twitter.core.Message;
+import com.khoros.twitter.core.StatusMessage;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
@@ -8,9 +9,9 @@ public class TestStatusMessage {
 
     @Test
     public void testSetStatus() {
-        Message message = new Message();
-        message.setText("Test");
-        assertEquals("Test", message.getText());
+        StatusMessage statusMessage = new StatusMessage();
+        statusMessage.setStatus("Test");
+        assertEquals("Test", statusMessage.getStatus());
     }
 
     @Test
