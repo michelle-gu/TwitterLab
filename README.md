@@ -3,12 +3,12 @@
 A simple java program that allows you to tweet and view your home timeline.
 
 To configure:
-1) Create `twitter4j.yml` file with your own Twitter keys/secrets following the template `twitter4j-example.yml`
+1) Create `twitter-lab.yml` file with your own Twitter keys/secrets following the template `twitter-lab-example.yml`
 
 To run program (from command line):
 1) Run program: 
     <br>`mvn clean install`
-    <br>`java -jar target/twitter-1.0-SNAPSHOT.jar server`
+    <br>`java -jar target/twitter-1.0-SNAPSHOT.jar server twitter-lab.yml`
 
 2) To post tweet: `curl -POST "localhost:8080/api/1.0/twitter/tweet" -H "Content-Type: application/json" -d '{"text":"<Your tweet here>"}'`
     <br>To get timeline: `curl -GET "localhost:8080/api/1.0/twitter/timeline"`

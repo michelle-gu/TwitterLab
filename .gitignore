@@ -5,5 +5,5 @@
 *.class
 *.jar
 target
-twitter4j.yml
+twitter-lab.yml
 

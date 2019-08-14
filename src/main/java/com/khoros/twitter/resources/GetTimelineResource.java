@@ -6,7 +6,6 @@ import com.codahale.metrics.annotation.Timed;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,10 +22,6 @@ public class GetTimelineResource {
 
     public GetTimelineResource(Twitter twitter) {
         this.twitter = twitter;
-    }
-
-    public GetTimelineResource() {
-        twitter = TwitterFactory.getSingleton();
     }
 
     @GET
