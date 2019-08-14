@@ -4,7 +4,6 @@ import com.codahale.metrics.annotation.Timed;
 import com.khoros.twitter.core.Message;
 import com.khoros.twitter.core.StatusMessage;
 import twitter4j.*;
-
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -25,10 +24,6 @@ public class PostTweetResource {
 
     public PostTweetResource(Twitter twitter) {
         this.twitter = twitter;
-    }
-
-    public PostTweetResource() {
-        twitter = TwitterFactory.getSingleton();
     }
 
     @POST

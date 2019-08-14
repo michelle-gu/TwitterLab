@@ -2,7 +2,6 @@ package com.khoros.twitter.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import twitter4j.Status;
-
 import java.util.List;
 
 public class Timeline {
