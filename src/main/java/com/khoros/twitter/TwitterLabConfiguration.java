@@ -2,60 +2,23 @@ package com.khoros.twitter;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public class TwitterLabConfiguration extends Configuration {
 
-    @NotEmpty
-    private String consumerKey;
+    @Valid
+    @NotNull
+    private TwitterLabFactory twitterLabFactory = new TwitterLabFactory();
 
-    @NotEmpty
-    private String consumerSecret;
-
-    @NotEmpty
-    private String accessToken;
-
-    @NotEmpty
-    private String accessTokenSecret;
-
-    @JsonProperty
-    public String getConsumerKey() {
-        return consumerKey;
+    @JsonProperty("twitter")
+    public TwitterLabFactory getTwitterLabFactory() {
+        return twitterLabFactory;
     }
 
-    @JsonProperty
-    public void setConsumerKey(String consumerKey) {
-        this.consumerKey = consumerKey;
-    }
-
-    @JsonProperty
-    public String getConsumerSecret() {
-        return consumerSecret;
-    }
-
-    @JsonProperty
-    public void setConsumerSecret(String consumerSecret) {
-        this.consumerSecret = consumerSecret;
-    }
-
-    @JsonProperty
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    @JsonProperty
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    @JsonProperty
-    public String getAccessTokenSecret() {
-        return accessTokenSecret;
-    }
-
-    @JsonProperty
-    public void setAccessTokenSecret(String accessTokenSecret) {
-        this.accessTokenSecret = accessTokenSecret;
+    @JsonProperty("twitter")
+    public void setTwitterLabFactory(TwitterLabFactory factory) {
+        this.twitterLabFactory = factory;
     }
 
 }

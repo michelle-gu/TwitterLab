@@ -30,10 +30,10 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
                     Environment environment) {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(configuration.getConsumerKey())
-                .setOAuthConsumerSecret(configuration.getConsumerSecret())
-                .setOAuthAccessToken(configuration.getAccessToken())
-                .setOAuthAccessTokenSecret(configuration.getAccessTokenSecret());
+                .setOAuthConsumerKey(configuration.getTwitterLabFactory().getConsumerKey())
+                .setOAuthConsumerSecret(configuration.getTwitterLabFactory().getConsumerSecret())
+                .setOAuthAccessToken(configuration.getTwitterLabFactory().getAccessToken())
+                .setOAuthAccessTokenSecret(configuration.getTwitterLabFactory().getAccessTokenSecret());
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
 

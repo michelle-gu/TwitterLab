@@ -1,4 +1,5 @@
-consumerKey: <your consumer key here>
-consumerSecret: <your consumer secret here>
-accessToken: <your access token here>
-accessTokenSecret: <your access token secret here>
+twitter:
+  consumerKey: <your consumer key here>
+  consumerSecret: <your consumer secret here>
+  accessToken: <your access token here>
+  accessTokenSecret: <your access token secret here>
