@@ -1,5 +1,6 @@
 package com.khoros.twitter;
 
+import com.khoros.twitter.core.TwitterLabFactory;
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.Valid;

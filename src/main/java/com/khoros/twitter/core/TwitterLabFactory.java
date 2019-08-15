@@ -1,4 +1,4 @@
-package com.khoros.twitter;
+package com.khoros.twitter.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;

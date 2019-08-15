@@ -1,6 +1,5 @@
 package com.khoros.twitter.core;
 
-import com.khoros.twitter.core.Timeline;
 import org.junit.Test;
 import twitter4j.Status;
 import java.util.ArrayList;

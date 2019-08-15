@@ -1,7 +1,5 @@
 package com.khoros.twitter.core;
 
-import com.khoros.twitter.core.Message;
-import com.khoros.twitter.core.StatusMessage;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 

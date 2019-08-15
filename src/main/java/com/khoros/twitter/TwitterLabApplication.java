@@ -1,7 +1,6 @@
 package com.khoros.twitter;
 
-import com.khoros.twitter.resources.GetTimelineResource;
-import com.khoros.twitter.resources.PostTweetResource;
+import com.khoros.twitter.resources.TwitterLabResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -43,12 +42,9 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
 
-        LOGGER.debug("Registering post tweet resource with twitter instance.");
-        final PostTweetResource postTweetResource = new PostTweetResource(twitter);
-        environment.jersey().register(postTweetResource);
-        LOGGER.debug("Registering get timeline resource with twitter instance.");
-        final GetTimelineResource getTimelineResource = new GetTimelineResource(twitter);
-        environment.jersey().register(getTimelineResource);
+        LOGGER.debug("Registering twitter lab resource with twitter instance.");
+        final TwitterLabResource twitterLabResource = new TwitterLabResource(twitter);
+        environment.jersey().register(twitterLabResource);
     }
 
 }

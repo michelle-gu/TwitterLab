@@ -3,20 +3,26 @@ package com.khoros.twitter.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.khoros.twitter.core.Message;
 import com.khoros.twitter.core.StatusMessage;
+import com.khoros.twitter.core.Timeline;
 import org.slf4j.LoggerFactory;
-import twitter4j.*;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
-// This route will post the message to the Twitter account.
-@Path("/api/1.0/twitter/tweet")
+// Resource for retrieving home timeline and posting tweets
+@Path("/api/1.0/twitter")
 @Produces(MediaType.APPLICATION_JSON)
-public class PostTweetResource {
+public class TwitterLabResource {
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PostTweetResource.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TwitterLabResource.class);
     static final int CHAR_LIMIT = 280;
     static final String EXCEPTION_STR = "Error posting tweet. Try again later!";
     static final String CHAR_LIMIT_STR = "Invalid tweet: Tweet must be between 1-" + CHAR_LIMIT + " characters";
@@ -24,10 +30,11 @@ public class PostTweetResource {
 
     private Twitter twitter;
 
-    public PostTweetResource(Twitter twitter) {
+    public TwitterLabResource(Twitter twitter) {
         this.twitter = twitter;
     }
 
+    @Path("tweet")
     @POST
     @Timed
     public Response postTweet(Message message) {
@@ -67,4 +74,27 @@ public class PostTweetResource {
                     .build();
         }
     }
+
+    @Path("timeline")
+    @GET
+    @Timed
+    public Response getTimeline() {
+        LOGGER.info("Attempting to retrieve home timeline.");
+        try {
+            List<Status> timeline = twitter.getHomeTimeline();
+            LOGGER.info("Successfully retrieved home timeline.");
+            return Response.status(Response.Status.OK)
+                    .entity(new Timeline(timeline))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (TwitterException e) {
+            LOGGER.error("Failed to get timeline. ", e);
+            StatusMessage errorMessage = new StatusMessage("Error getting home timeline. Try again later!");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(errorMessage)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+    }
+
 }
