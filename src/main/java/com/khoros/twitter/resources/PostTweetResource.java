@@ -59,7 +59,7 @@ public class PostTweetResource {
                         .build();
             }
         } catch (TwitterException e) {
-            LOGGER.error("Failed to post tweet: " + text + "\nTwitter exception: ", e);
+            LOGGER.error("Failed to post tweet: " + text, e);
             statusMessage.setStatus(EXCEPTION_STR);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(statusMessage)
