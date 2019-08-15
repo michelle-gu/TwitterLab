@@ -35,7 +35,7 @@ public class PostTweetResource {
         String text = message.getText();
         StatusMessage statusMessage = new StatusMessage();
         if (text == null) {
-            LOGGER.error("Failed to post tweet. " + JSON_FORMAT_STR);
+            LOGGER.info("Failed to post tweet. " + JSON_FORMAT_STR);
             statusMessage.setStatus(JSON_FORMAT_STR);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(statusMessage)
@@ -51,7 +51,7 @@ public class PostTweetResource {
                         .type(MediaType.APPLICATION_JSON)
                         .build();
             } else {
-                LOGGER.error("Failed to post tweet. " + CHAR_LIMIT_STR);
+                LOGGER.info("Failed to post tweet. " + CHAR_LIMIT_STR);
                 statusMessage.setStatus(CHAR_LIMIT_STR);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity(statusMessage)
