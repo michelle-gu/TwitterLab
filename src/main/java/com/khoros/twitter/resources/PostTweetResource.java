@@ -45,7 +45,7 @@ public class PostTweetResource {
         try {
             if (text.length() > 0 && text.length() <= CHAR_LIMIT) {
                 Status status = twitter.updateStatus(text);
-                LOGGER.info("Successfully posted tweet: " + status.getText());
+                LOGGER.info("Successfully posted tweet: " + text);
                 return Response.status(Response.Status.OK)
                         .entity(status)
                         .type(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ public class PostTweetResource {
                         .build();
             }
         } catch (TwitterException e) {
-            LOGGER.error("Failed to post tweet: " + message.getText() + "\nTwitter exception: ", e);
+            LOGGER.error("Failed to post tweet: " + text + "\nTwitter exception: ", e);
             statusMessage.setStatus(EXCEPTION_STR);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(statusMessage)
