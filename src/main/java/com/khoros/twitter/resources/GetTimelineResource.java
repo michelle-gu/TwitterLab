@@ -40,7 +40,7 @@ public class GetTimelineResource {
                     .type(MediaType.APPLICATION_JSON)
                     .build();
         } catch (TwitterException e) {
-            LOGGER.error("Failed to get timeline. Twitter exception: " + e);
+            LOGGER.error("Failed to get timeline. \nTwitter exception: ", e);
             StatusMessage errorMessage = new StatusMessage("Error getting home timeline. Try again later!");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(errorMessage)
