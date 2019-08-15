@@ -39,14 +39,14 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
                 .setOAuthConsumerSecret(configuration.getTwitterLabFactory().getConsumerSecret())
                 .setOAuthAccessToken(configuration.getTwitterLabFactory().getAccessToken())
                 .setOAuthAccessTokenSecret(configuration.getTwitterLabFactory().getAccessTokenSecret());
-        LOGGER.info("Creating twitter instance with configuration.");
+        LOGGER.debug("Creating twitter instance with configuration.");
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
 
-        LOGGER.info("Registering post tweet resource with twitter instance.");
+        LOGGER.debug("Registering post tweet resource with twitter instance.");
         final PostTweetResource postTweetResource = new PostTweetResource(twitter);
         environment.jersey().register(postTweetResource);
-        LOGGER.info("Registering get timeline resource with twitter instance.");
+        LOGGER.debug("Registering get timeline resource with twitter instance.");
         final GetTimelineResource getTimelineResource = new GetTimelineResource(twitter);
         environment.jersey().register(getTimelineResource);
     }
