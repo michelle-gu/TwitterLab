@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,6 +22,7 @@ import java.util.List;
 public class TwitterLabResource {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TwitterLabResource.class);
+
     static final int CHAR_LIMIT = 280;
     static final String EXCEPTION_STR = "Error posting tweet. Try again later!";
     static final String CHAR_LIMIT_STR = "Invalid tweet: Tweet must be between 1-" + CHAR_LIMIT + " characters";
