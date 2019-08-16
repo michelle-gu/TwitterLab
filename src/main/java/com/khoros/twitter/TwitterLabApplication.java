@@ -7,6 +7,9 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterLabApplication extends Application<TwitterLabConfiguration> {
 
@@ -30,7 +33,18 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
     public void run(TwitterLabConfiguration configuration,
                     Environment environment) {
         LOGGER.info("Running TwitterLab application.");
-        TwitterLabService twitterLabService = TwitterLabService.getInstance(configuration);
+        LOGGER.info("Configuring TwitterFactory.");
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(configuration.getTwitterLabFactory().getConsumerKey())
+                .setOAuthConsumerSecret(configuration.getTwitterLabFactory().getConsumerSecret())
+                .setOAuthAccessToken(configuration.getTwitterLabFactory().getAccessToken())
+                .setOAuthAccessTokenSecret(configuration.getTwitterLabFactory().getAccessTokenSecret());
+
+        LOGGER.debug("Creating Twitter instance.");
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        TwitterLabService twitterLabService = TwitterLabService.getInstance(twitter);
 
         LOGGER.debug("Registering twitter lab resource with twitter instance.");
         final TwitterLabResource twitterLabResource = new TwitterLabResource(twitterLabService);
