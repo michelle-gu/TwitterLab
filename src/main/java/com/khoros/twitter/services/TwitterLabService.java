@@ -3,9 +3,13 @@ package com.khoros.twitter.services;
 import com.khoros.twitter.TwitterLabConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+
+import java.util.List;
 
 public class TwitterLabService {
 
@@ -13,7 +17,7 @@ public class TwitterLabService {
 
     private static volatile TwitterLabService instance = null;
 
-    private static Twitter twitter;
+    private Twitter twitter;
 
     private TwitterLabService(TwitterLabConfiguration configuration) {
         LOGGER.info("Configuring TwitterFactory.");
@@ -41,8 +45,12 @@ public class TwitterLabService {
         return instance;
     }
 
-    public Twitter getTwitter() {
-        return twitter;
+    public Status postTweet(String text) throws TwitterException {
+        return twitter.updateStatus(text);
+    }
+
+    public List<Status> getTimeline() throws TwitterException {
+        return twitter.getHomeTimeline();
     }
 
 }

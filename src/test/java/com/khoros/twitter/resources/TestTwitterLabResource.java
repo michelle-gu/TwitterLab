@@ -2,6 +2,7 @@ package com.khoros.twitter.resources;
 
 import com.khoros.twitter.core.Message;
 import com.khoros.twitter.core.StatusMessage;
+import com.khoros.twitter.services.TwitterLabService;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,12 +20,12 @@ public class TestTwitterLabResource {
     private static final String EXCEPTION_STR = "Error getting home timeline. Try again later!";
 
     private TwitterLabResource twitterLabResource;
-    private Twitter mockedTwitter;
+    private TwitterLabService mockedTwitterLabService;
 
     @Before
     public void setUp() {
-        mockedTwitter = mock(Twitter.class);
-        twitterLabResource = new TwitterLabResource(mockedTwitter);
+        mockedTwitterLabService = mock(TwitterLabService.class);
+        twitterLabResource = new TwitterLabResource(mockedTwitterLabService);
     }
 
     // GetTimeline tests

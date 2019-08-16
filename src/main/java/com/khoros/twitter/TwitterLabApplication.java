@@ -30,10 +30,10 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
     public void run(TwitterLabConfiguration configuration,
                     Environment environment) {
         LOGGER.info("Running TwitterLab application.");
-        TwitterLabService tls = TwitterLabService.getInstance(configuration);
+        TwitterLabService twitterLabService = TwitterLabService.getInstance(configuration);
 
         LOGGER.debug("Registering twitter lab resource with twitter instance.");
-        final TwitterLabResource twitterLabResource = new TwitterLabResource(tls.getTwitter());
+        final TwitterLabResource twitterLabResource = new TwitterLabResource(twitterLabService);
         environment.jersey().register(twitterLabResource);
     }
 

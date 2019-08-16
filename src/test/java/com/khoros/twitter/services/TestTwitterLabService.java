@@ -24,9 +24,5 @@ public class TestTwitterLabService {
         assertEquals(twitterLabService1, twitterLabService2);
     }
 
-    @Test
-    public void testGetTwitter() {
-        assertEquals(twitterLabService1.getTwitter(), twitterLabService2.getTwitter());
-    }
 
 }
