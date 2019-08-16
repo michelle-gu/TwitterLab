@@ -7,7 +7,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public final class TwitterLabService {
+public class TwitterLabService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TwitterLabService.class);
 
