@@ -1,6 +1,5 @@
 package com.khoros.twitter.core;
 
-import com.khoros.twitter.core.Timeline;
 import org.junit.Test;
 import twitter4j.Status;
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class TestTimeline {
+public class TimelineTest {
 
     @Test
     public void testGetTimeline() {
