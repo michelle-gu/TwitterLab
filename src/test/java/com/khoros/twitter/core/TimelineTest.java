@@ -7,7 +7,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class TestTimeline {
+public class TimelineTest {
 
     @Test
     public void testGetTimeline() {

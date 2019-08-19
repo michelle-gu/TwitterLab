@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class TestTwitterLabResource {
+public class TwitterLabResourceTest {
 
     private TwitterLabResource twitterLabResource;
     private TwitterLabService mockedTwitterLabService;

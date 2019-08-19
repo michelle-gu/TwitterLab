@@ -3,7 +3,7 @@ package com.khoros.twitter.core;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
-public class TestMessage {
+public class MessageTest {
 
     @Test
     public void testSetText() {

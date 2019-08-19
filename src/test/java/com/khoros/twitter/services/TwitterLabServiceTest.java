@@ -9,7 +9,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import static org.mockito.Mockito.*;
 
-public class TestTwitterLabService {
+public class TwitterLabServiceTest {
 
     private TwitterLabService twitterLabService;
     private Twitter mockedTwitter;
