@@ -1,19 +1,13 @@
 package com.khoros.twitter.services;
 
-import com.khoros.twitter.core.Timeline;
 import com.khoros.twitter.models.Post;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TwitterLabServiceTest {
