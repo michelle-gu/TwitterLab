@@ -44,7 +44,7 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
         LOGGER.debug("Creating Twitter instance.");
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
-        TwitterLabService twitterLabService = TwitterLabService.getInstance(twitter);
+        TwitterLabService twitterLabService = new TwitterLabService(twitter);
 
         LOGGER.debug("Registering twitter lab resource with twitter instance.");
         final TwitterLabResource twitterLabResource = new TwitterLabResource(twitterLabService);
