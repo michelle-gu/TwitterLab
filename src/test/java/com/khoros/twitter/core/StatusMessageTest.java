@@ -14,8 +14,8 @@ public class StatusMessageTest {
 
     @Test
     public void testGetStatus() {
-        Message message = new Message("Test");
-        assertEquals("Test", message.getText());
+        StatusMessage message = new StatusMessage("Test");
+        assertEquals("Test", message.getStatus());
     }
 
 }
