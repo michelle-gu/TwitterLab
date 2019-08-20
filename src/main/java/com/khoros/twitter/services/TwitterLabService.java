@@ -77,15 +77,15 @@ public class TwitterLabService {
             List<Status> statusTimeline = twitter.getHomeTimeline();
             LOGGER.info("Filtering home timeline with keyword: " + keyword);
             List<Post> filteredPostTimeline = Optional.ofNullable(statusTimeline)
-                    .map(List::stream)
-                    .orElseGet(Stream::empty)
-                    .filter(s -> s.getText().contains(keyword))
-                    .map(s -> new Post(s.getText(),
-                                       new User(s.getUser().getScreenName(),
-                                                s.getUser().getName(),
-                                                s.getUser().getProfileImageURL()),
-                                       s.getCreatedAt()))
-                    .collect(toList());
+                                                      .map(List::stream)
+                                                      .orElseGet(Stream::empty)
+                                                      .filter(s -> s.getText().contains(keyword))
+                                                      .map(s -> new Post(s.getText(),
+                                                                new User(s.getUser().getScreenName(),
+                                                                         s.getUser().getName(),
+                                                                         s.getUser().getProfileImageURL()),
+                                                                s.getCreatedAt()))
+                                                      .collect(toList());
             LOGGER.info("Successfully retrieved home timeline.");
             return filteredPostTimeline;
         } catch (TwitterException e) {
