@@ -81,10 +81,10 @@ public class TwitterLabService {
                                                       .orElseGet(Stream::empty)
                                                       .filter(s -> s.getText().contains(keyword))
                                                       .map(s -> new Post(s.getText(),
-                                                                new User(s.getUser().getScreenName(),
-                                                                         s.getUser().getName(),
-                                                                         s.getUser().getProfileImageURL()),
-                                                                s.getCreatedAt()))
+                                                                         new User(s.getUser().getScreenName(),
+                                                                                  s.getUser().getName(),
+                                                                                  s.getUser().getProfileImageURL()),
+                                                                         s.getCreatedAt()))
                                                       .collect(toList());
             LOGGER.info("Successfully retrieved home timeline.");
             return filteredPostTimeline;
