@@ -7,12 +7,13 @@ import com.khoros.twitter.models.Post;
 import com.khoros.twitter.services.TwitterLabException;
 import com.khoros.twitter.services.TwitterLabService;
 import org.slf4j.LoggerFactory;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+import static java.util.stream.Collectors.toList;
 
 // Provides endpoints for retrieving home timeline and posting tweets
 @Path("/api/1.0/twitter")
@@ -20,6 +21,8 @@ import javax.ws.rs.core.Response;
 public class TwitterLabResource {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TwitterLabResource.class);
+
+    static final String NULL_KEYWORD_STR = "Must define keyword parameter to filter on.";
 
     private TwitterLabService twitterLabService;
 
@@ -62,4 +65,36 @@ public class TwitterLabResource {
                     .build();
         }
     }
+
+    @Path("timeline/filter")
+    @GET
+    @Timed
+    public Response getFilteredTimeline(@QueryParam("keyword") String keyword) {
+        LOGGER.trace("Hitting getFilteredTimeline endpoint");
+        if (keyword == null) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new StatusMessage(NULL_KEYWORD_STR))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+        try {
+            List<Post> timeline = twitterLabService.getTimeline();
+            LOGGER.info("Filtering home timeline with keyword: " + keyword);
+            List<Post> filteredTimeline = Optional.ofNullable(timeline)
+                                                  .map(List::stream)
+                                                  .orElseGet(Stream::empty)
+                                                  .filter(post -> post.getMessage().contains(keyword))
+                                                  .collect(toList());
+            return Response.status(Response.Status.OK)
+                    .entity(new Timeline(filteredTimeline))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (TwitterLabException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new StatusMessage(e.getMessage()))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+    }
+
 }

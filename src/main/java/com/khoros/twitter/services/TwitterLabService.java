@@ -7,15 +7,18 @@ import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 // Provides services for getting home timeline and posting tweets
 public class TwitterLabService {
 
     public static final int CHAR_LIMIT = 280;
     public static final String CHAR_LIMIT_STR = "Invalid tweet: Tweet must be between 1-" + TwitterLabService.CHAR_LIMIT + " characters";
-    public static final String JSON_FORMAT_STR = "Invalid JSON - use format: {\"text\":\"<your tweet here>\"}";
+    public static final String JSON_FORMAT_STR = "Invalid JSON - use format: {\"message\":\"<your tweet here>\"}";
     public static final String EXCEPTION_STR = "Error posting tweet. Try again later!";
     public static final String TIMELINE_EXCEPTION_STR = "Error getting home timeline. Try again later!";
 
@@ -27,14 +30,14 @@ public class TwitterLabService {
         this.twitter = twitter;
     }
 
-    public Status postTweet(String text) throws TwitterLabException {
+    public Status postTweet(String message) throws TwitterLabException {
         LOGGER.info("Attempting to post tweet.");
         try {
-            if (text != null && text.length() > 0 && text.length() <= CHAR_LIMIT) {
-                Status status = twitter.updateStatus(text);
-                LOGGER.info("Successfully posted tweet: " + text);
+            if (message != null && message.length() > 0 && message.length() <= CHAR_LIMIT) {
+                Status status = twitter.updateStatus(message);
+                LOGGER.info("Successfully posted tweet: " + message);
                 return status;
-            } else if (text == null) {
+            } else if (message == null) {
                 LOGGER.warn("Failed to post tweet. " + JSON_FORMAT_STR);
                 throw new TwitterLabException(JSON_FORMAT_STR);
             } else {
@@ -42,7 +45,7 @@ public class TwitterLabService {
                 throw new TwitterLabException(CHAR_LIMIT_STR);
             }
         } catch (TwitterException e) {
-            LOGGER.error("Failed to post tweet: " + text, e);
+            LOGGER.error("Failed to post tweet: " + message, e);
             throw new TwitterLabException(EXCEPTION_STR);
         }
     }
@@ -51,13 +54,16 @@ public class TwitterLabService {
         LOGGER.info("Attempting to retrieve home timeline.");
         try {
             List<Status> statusTimeline = twitter.getHomeTimeline();
-            List<Post> postTimeline = new ArrayList<Post>();
-            if (statusTimeline != null) {
-                for (Status s : statusTimeline) {
-                    User user = new User(s.getUser().getScreenName(), s.getUser().getName(), s.getUser().getProfileImageURL());
-                    postTimeline.add(new Post(s.getText(), user, s.getCreatedAt()));
-                }
-            }
+            List<Post> postTimeline = Optional.ofNullable(statusTimeline)
+                                              .map(List::stream)
+                                              .orElseGet(Stream::empty)
+                                              .map(s -> new Post(s.getText(),
+                                                                 new User(s.getUser().getScreenName(),
+                                                                          s.getUser().getName(),
+                                                                          s.getUser().getProfileImageURL()),
+                                                                 s.getCreatedAt()))
+                                              .collect(toList());
+
             LOGGER.info("Successfully retrieved home timeline.");
             return postTimeline;
         } catch (TwitterException e) {

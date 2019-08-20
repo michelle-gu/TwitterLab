@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import javax.ws.rs.core.Response;
 import java.util.Date;
-
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -36,6 +35,34 @@ public class TwitterLabResourceTest {
     public void testGetTimelineException() throws TwitterLabException {
         when(mockedTwitterLabService.getTimeline()).thenThrow(new TwitterLabException(TwitterLabService.TIMELINE_EXCEPTION_STR));
         Response testResponse = twitterLabResource.getTimeline();
+        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
+        assertEquals(TwitterLabService.TIMELINE_EXCEPTION_STR, ((StatusMessage)testResponse.getEntity()).getStatus());
+    }
+
+    // GetFilteredTimeline tests
+    @Test
+    public void testGetFilteredTimeline() {
+        Response testResponse = twitterLabResource.getFilteredTimeline("test");
+        assertEquals(Response.Status.OK.getStatusCode(), testResponse.getStatus());
+    }
+
+    @Test
+    public void testGetFilteredTimelineWithEmptyFilter() {
+        Response testResponse = twitterLabResource.getFilteredTimeline("");
+        assertEquals(Response.Status.OK.getStatusCode(), testResponse.getStatus());
+    }
+
+    @Test
+    public void testGetFilteredTimelineWithNullFilter() {
+        Response testResponse = twitterLabResource.getFilteredTimeline(null);
+        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
+        assertEquals(TwitterLabResource.NULL_KEYWORD_STR, ((StatusMessage)testResponse.getEntity()).getStatus());
+    }
+
+    @Test
+    public void testGetFilteredTimelineException() throws TwitterLabException {
+        when(mockedTwitterLabService.getTimeline()).thenThrow(new TwitterLabException(TwitterLabService.TIMELINE_EXCEPTION_STR));
+        Response testResponse = twitterLabResource.getFilteredTimeline("test");
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
         assertEquals(TwitterLabService.TIMELINE_EXCEPTION_STR, ((StatusMessage)testResponse.getEntity()).getStatus());
     }
