@@ -76,7 +76,6 @@ public class TwitterLabService {
         try {
             List<Status> statusTimeline = twitter.getHomeTimeline();
             LOGGER.info("Filtering home timeline with keyword: " + keyword);
-
             List<Post> filteredPostTimeline = Optional.ofNullable(statusTimeline)
                     .map(List::stream)
                     .orElseGet(Stream::empty)
