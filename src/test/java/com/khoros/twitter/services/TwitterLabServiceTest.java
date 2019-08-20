@@ -1,6 +1,6 @@
 package com.khoros.twitter.services;
 
-import com.khoros.twitter.core.Timeline;
+import com.khoros.twitter.models.Post;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +8,6 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import java.util.List;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TwitterLabServiceTest {
@@ -25,14 +23,14 @@ public class TwitterLabServiceTest {
 
     @Test
     public void testGetTimeline() throws TwitterLabException, TwitterException {
-        List<Status> testTimeline = twitterLabService.getTimeline();
+        List<Post> testTimeline = twitterLabService.getTimeline();
         verify(mockedTwitter).getHomeTimeline();
     }
 
     @Test (expected = TwitterLabException.class)
     public void testGetTimelineException() throws TwitterLabException, TwitterException {
         when(mockedTwitter.getHomeTimeline()).thenThrow(new TwitterException("Test Exception"));
-        List<Status> testTimeline = twitterLabService.getTimeline();
+        List<Post> testTimeline = twitterLabService.getTimeline();
     }
 
     @Test

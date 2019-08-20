@@ -1,10 +1,13 @@
 package com.khoros.twitter.services;
 
+import com.khoros.twitter.models.Post;
+import com.khoros.twitter.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import java.util.ArrayList;
 import java.util.List;
 
 // Provides services for getting home timeline and posting tweets
@@ -44,12 +47,19 @@ public class TwitterLabService {
         }
     }
 
-    public List<Status> getTimeline() throws TwitterLabException {
+    public List<Post> getTimeline() throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline.");
         try {
-            List<Status> timeline = twitter.getHomeTimeline();
+            List<Status> statusTimeline = twitter.getHomeTimeline();
+            List<Post> postTimeline = new ArrayList<Post>();
+            if (statusTimeline != null) {
+                for (Status s : statusTimeline) {
+                    User user = new User(s.getUser().getScreenName(), s.getUser().getName(), s.getUser().getProfileImageURL());
+                    postTimeline.add(new Post(s.getText(), user, s.getCreatedAt()));
+                }
+            }
             LOGGER.info("Successfully retrieved home timeline.");
-            return timeline;
+            return postTimeline;
         } catch (TwitterException e) {
             LOGGER.error("Failed to get timeline. ", e);
             throw new TwitterLabException(TIMELINE_EXCEPTION_STR);

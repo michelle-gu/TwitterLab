@@ -1,23 +1,23 @@
 package com.khoros.twitter.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import twitter4j.Status;
+import com.khoros.twitter.models.Post;
 import java.util.List;
 
 public class Timeline {
 
-    private List<Status> timeline;
+    private List<Post> timeline;
 
     public Timeline() {
         // Jackson deserialization
     }
 
-    public Timeline(List<Status> timeline) {
+    public Timeline(List<Post> timeline) {
         this.timeline = timeline;
     }
 
     @JsonProperty
-    public List<Status> getTimeline() {
+    public List<Post> getTimeline() {
         return timeline;
     }
 
