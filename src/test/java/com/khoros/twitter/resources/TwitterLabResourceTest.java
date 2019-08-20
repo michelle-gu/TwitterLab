@@ -61,7 +61,7 @@ public class TwitterLabResourceTest {
 
     @Test
     public void testGetFilteredTimelineException() throws TwitterLabException {
-        when(mockedTwitterLabService.getTimeline()).thenThrow(new TwitterLabException(TwitterLabService.TIMELINE_EXCEPTION_STR));
+        when(mockedTwitterLabService.getFilteredTimeline("test")).thenThrow(new TwitterLabException(TwitterLabService.TIMELINE_EXCEPTION_STR));
         Response testResponse = twitterLabResource.getFilteredTimeline("test");
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
         assertEquals(TwitterLabService.TIMELINE_EXCEPTION_STR, ((StatusMessage)testResponse.getEntity()).getStatus());

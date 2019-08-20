@@ -21,6 +21,7 @@ public class TwitterLabServiceTest {
         twitterLabService = new TwitterLabService(mockedTwitter);
     }
 
+    // Get timeline tests
     @Test
     public void testGetTimeline() throws TwitterLabException, TwitterException {
         List<Post> testTimeline = twitterLabService.getTimeline();
@@ -33,6 +34,26 @@ public class TwitterLabServiceTest {
         List<Post> testTimeline = twitterLabService.getTimeline();
     }
 
+    // Get filtered timeline tests
+    @Test
+    public void testGetFilteredTimeline() throws TwitterLabException, TwitterException {
+        List<Post> testTimeline = twitterLabService.getFilteredTimeline("test");
+        verify(mockedTwitter).getHomeTimeline();
+    }
+
+    @Test (expected = TwitterLabException.class)
+    public void testGetFilteredTimelineException() throws TwitterLabException, TwitterException {
+        when(mockedTwitter.getHomeTimeline()).thenThrow(new TwitterException("Test Exception"));
+        List<Post> testTimeline = twitterLabService.getFilteredTimeline("test");
+    }
+
+    @Test
+    public void testGetFilteredTimelineWithEmptyFilter() throws TwitterLabException, TwitterException {
+        List<Post> testTimeline = twitterLabService.getFilteredTimeline("");
+        verify(mockedTwitter).getHomeTimeline();
+    }
+
+    // Post tweet tests
     @Test
     public void testPostTweet() throws TwitterException, TwitterLabException {
         String text = "test";

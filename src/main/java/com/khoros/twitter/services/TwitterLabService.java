@@ -10,7 +10,6 @@ import twitter4j.TwitterException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import static java.util.stream.Collectors.toList;
 
 // Provides services for getting home timeline and posting tweets
@@ -66,6 +65,30 @@ public class TwitterLabService {
 
             LOGGER.info("Successfully retrieved home timeline.");
             return postTimeline;
+        } catch (TwitterException e) {
+            LOGGER.error("Failed to get timeline. ", e);
+            throw new TwitterLabException(TIMELINE_EXCEPTION_STR);
+        }
+    }
+
+    public List<Post> getFilteredTimeline(String keyword) throws TwitterLabException{
+        LOGGER.info("Attempting to retrieve home timeline.");
+        try {
+            List<Status> statusTimeline = twitter.getHomeTimeline();
+            LOGGER.info("Filtering home timeline with keyword: " + keyword);
+
+            List<Post> filteredPostTimeline = Optional.ofNullable(statusTimeline)
+                    .map(List::stream)
+                    .orElseGet(Stream::empty)
+                    .filter(s -> s.getText().contains(keyword))
+                    .map(s -> new Post(s.getText(),
+                            new User(s.getUser().getScreenName(),
+                                    s.getUser().getName(),
+                                    s.getUser().getProfileImageURL()),
+                            s.getCreatedAt()))
+                    .collect(toList());
+            LOGGER.info("Successfully retrieved home timeline.");
+            return filteredPostTimeline;
         } catch (TwitterException e) {
             LOGGER.error("Failed to get timeline. ", e);
             throw new TwitterLabException(TIMELINE_EXCEPTION_STR);
