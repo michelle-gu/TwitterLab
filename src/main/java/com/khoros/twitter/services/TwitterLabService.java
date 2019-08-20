@@ -62,7 +62,6 @@ public class TwitterLabService {
                                                                           s.getUser().getProfileImageURL()),
                                                                  s.getCreatedAt()))
                                               .collect(toList());
-
             LOGGER.info("Successfully retrieved home timeline.");
             return postTimeline;
         } catch (TwitterException e) {
