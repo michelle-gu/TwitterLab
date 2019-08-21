@@ -78,7 +78,7 @@ public class TwitterLabService {
             List<Post> filteredPostTimeline = Optional.ofNullable(statusTimeline)
                                                       .map(List::stream)
                                                       .orElseGet(Stream::empty)
-                                                      .filter(s -> s.getText().contains(keyword))
+                                                      .filter(s -> s.getText().toLowerCase().contains(keyword))
                                                       .map(s -> new Post(s.getText(),
                                                                          new User(s.getUser().getScreenName(),
                                                                                   s.getUser().getName(),
