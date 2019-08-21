@@ -10,6 +10,11 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 // Provides endpoints for retrieving home timeline and posting tweets
 @Path("/api/1.0/twitter")
@@ -74,8 +79,13 @@ public class TwitterLabResource {
                     .build();
         }
         try {
+            List<Post> filteredTimeline = twitterLabService.getFilteredTimeline(keyword);
+            List<Post> postTimeline = Optional.ofNullable(filteredTimeline)
+                    .map(List::stream)
+                    .orElseGet(Stream::empty)
+                    .collect(toList());
             return Response.status(Response.Status.OK)
-                    .entity(new Timeline(twitterLabService.getFilteredTimeline(keyword)))
+                    .entity(new Timeline(postTimeline))
                     .type(MediaType.APPLICATION_JSON)
                     .build();
         } catch (TwitterLabException e) {
