@@ -70,7 +70,7 @@ public class TwitterLabService {
         }
     }
 
-    public List<Post> getFilteredTimeline(String keyword) throws TwitterLabException{
+    public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException{
         LOGGER.info("Attempting to retrieve home timeline.");
         try {
             List<Status> statusTimeline = twitter.getHomeTimeline();
@@ -86,7 +86,7 @@ public class TwitterLabService {
                                                                          s.getCreatedAt()))
                                                       .collect(toList());
             LOGGER.info("Successfully retrieved home timeline.");
-            return filteredPostTimeline;
+            return Optional.of(filteredPostTimeline);
         } catch (TwitterException e) {
             LOGGER.error("Failed to get timeline. ", e);
             throw new TwitterLabException(TIMELINE_EXCEPTION_STR);

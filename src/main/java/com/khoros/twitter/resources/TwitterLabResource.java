@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -79,14 +80,15 @@ public class TwitterLabResource {
                     .build();
         }
         try {
-            List<Post> filteredTimeline = Optional.ofNullable(twitterLabService.getFilteredTimeline(keyword))
-                    .map(List::stream)
-                    .orElseGet(Stream::empty)
-                    .collect(toList());
-            return Response.status(Response.Status.OK)
+            return twitterLabService.getFilteredTimeline(keyword)
+                    .map(filteredTimeline -> Response.status(Response.Status.OK)
                     .entity(new Timeline(filteredTimeline))
                     .type(MediaType.APPLICATION_JSON)
-                    .build();
+                    .build())
+                    .orElse(Response.status(Response.Status.OK)
+                            .entity(new Timeline())
+                            .type(MediaType.APPLICATION_JSON)
+                            .build());
         } catch (TwitterLabException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new StatusMessage(e.getMessage()))

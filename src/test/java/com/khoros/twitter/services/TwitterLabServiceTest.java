@@ -8,6 +8,8 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 
 public class TwitterLabServiceTest {
@@ -37,19 +39,19 @@ public class TwitterLabServiceTest {
     // Get filtered timeline tests
     @Test
     public void testGetFilteredTimeline() throws TwitterLabException, TwitterException {
-        List<Post> testTimeline = twitterLabService.getFilteredTimeline("test");
+        Optional<List<Post>> testTimeline = twitterLabService.getFilteredTimeline("test");
         verify(mockedTwitter).getHomeTimeline();
     }
 
     @Test (expected = TwitterLabException.class)
     public void testGetFilteredTimelineException() throws TwitterLabException, TwitterException {
         when(mockedTwitter.getHomeTimeline()).thenThrow(new TwitterException("Test Exception"));
-        List<Post> testTimeline = twitterLabService.getFilteredTimeline("test");
+        Optional<List<Post>> testTimeline = twitterLabService.getFilteredTimeline("test");
     }
 
     @Test
     public void testGetFilteredTimelineWithEmptyFilter() throws TwitterLabException, TwitterException {
-        List<Post> testTimeline = twitterLabService.getFilteredTimeline("");
+        Optional<List<Post>> testTimeline = twitterLabService.getFilteredTimeline("");
         verify(mockedTwitter).getHomeTimeline();
     }
 
