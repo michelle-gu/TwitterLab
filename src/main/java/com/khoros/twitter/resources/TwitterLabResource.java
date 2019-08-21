@@ -79,13 +79,12 @@ public class TwitterLabResource {
                     .build();
         }
         try {
-            List<Post> filteredTimeline = twitterLabService.getFilteredTimeline(keyword);
-            List<Post> postTimeline = Optional.ofNullable(filteredTimeline)
+            List<Post> filteredTimeline = Optional.ofNullable(twitterLabService.getFilteredTimeline(keyword))
                     .map(List::stream)
                     .orElseGet(Stream::empty)
                     .collect(toList());
             return Response.status(Response.Status.OK)
-                    .entity(new Timeline(postTimeline))
+                    .entity(new Timeline(filteredTimeline))
                     .type(MediaType.APPLICATION_JSON)
                     .build();
         } catch (TwitterLabException e) {
