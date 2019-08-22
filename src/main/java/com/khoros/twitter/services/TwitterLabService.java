@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -25,6 +26,7 @@ public class TwitterLabService {
 
     private Twitter twitter;
 
+    @Inject
     public TwitterLabService(Twitter twitter) {
         this.twitter = twitter;
     }
