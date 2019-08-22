@@ -33,20 +33,9 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
     public void run(TwitterLabConfiguration configuration,
                     Environment environment) {
         LOGGER.info("Running TwitterLab application.");
-        LOGGER.info("Configuring TwitterFactory.");
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(configuration.getTwitterLabFactory().getConsumerKey())
-                .setOAuthConsumerSecret(configuration.getTwitterLabFactory().getConsumerSecret())
-                .setOAuthAccessToken(configuration.getTwitterLabFactory().getAccessToken())
-                .setOAuthAccessTokenSecret(configuration.getTwitterLabFactory().getAccessTokenSecret());
-
-        LOGGER.debug("Creating Twitter Factory.");
-        TwitterFactory tf = new TwitterFactory(cb.build());
-
         LOGGER.debug("Registering twitter lab resource with twitter instance.");
         TwitterLabComponent component = DaggerTwitterLabComponent.builder()
-                .twitterLabModule(new TwitterLabModule(tf)).build();
+                .twitterLabModule(new TwitterLabModule(configuration)).build();
 
         final TwitterLabResource twitterLabResource = component.buildTwitterLabResource();
         environment.jersey().register(twitterLabResource);
