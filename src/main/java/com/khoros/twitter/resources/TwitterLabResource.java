@@ -7,6 +7,8 @@ import com.khoros.twitter.models.Post;
 import com.khoros.twitter.services.TwitterLabException;
 import com.khoros.twitter.services.TwitterLabService;
 import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,6 +24,7 @@ public class TwitterLabResource {
 
     private TwitterLabService twitterLabService;
 
+    @Inject
     public TwitterLabResource(TwitterLabService twitterLabService) {
         this.twitterLabService = twitterLabService;
     }

@@ -41,13 +41,14 @@ public class TwitterLabApplication extends Application<TwitterLabConfiguration> 
                 .setOAuthAccessToken(configuration.getTwitterLabFactory().getAccessToken())
                 .setOAuthAccessTokenSecret(configuration.getTwitterLabFactory().getAccessTokenSecret());
 
-        LOGGER.debug("Creating Twitter instance.");
+        LOGGER.debug("Creating Twitter Factory.");
         TwitterFactory tf = new TwitterFactory(cb.build());
-        Twitter twitter = tf.getInstance();
-        TwitterLabService twitterLabService = new TwitterLabService(twitter);
 
         LOGGER.debug("Registering twitter lab resource with twitter instance.");
-        final TwitterLabResource twitterLabResource = new TwitterLabResource(twitterLabService);
+        TwitterLabComponent component = DaggerTwitterLabComponent.builder()
+                .twitterLabModule(new TwitterLabModule(tf)).build();
+
+        final TwitterLabResource twitterLabResource = component.buildTwitterLabResource();
         environment.jersey().register(twitterLabResource);
     }
 
