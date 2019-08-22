@@ -34,10 +34,5 @@ public class TwitterLabModule {
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }
-
-    @Provides
-    public TwitterLabService provideTwitterLabService(Twitter t) {
-        return new TwitterLabService(t);
-    }
-
+    
 }
