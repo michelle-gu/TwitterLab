@@ -1,15 +1,11 @@
 package com.khoros.twitter;
 
 import com.khoros.twitter.resources.TwitterLabResource;
-import com.khoros.twitter.services.TwitterLabService;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterLabApplication extends Application<TwitterLabConfiguration> {
 

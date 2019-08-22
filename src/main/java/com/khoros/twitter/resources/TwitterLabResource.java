@@ -7,7 +7,6 @@ import com.khoros.twitter.models.Post;
 import com.khoros.twitter.services.TwitterLabException;
 import com.khoros.twitter.services.TwitterLabService;
 import org.slf4j.LoggerFactory;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
