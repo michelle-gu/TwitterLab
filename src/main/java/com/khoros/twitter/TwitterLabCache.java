@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TwitterLabCache {
 
-    private List<Status> cache;
+    private List cache;
     private Date lastUpdated;
 
     private final long TIME_TO_LIVE = 60000; // in milliseconds = 1 min
@@ -17,11 +17,11 @@ public class TwitterLabCache {
         this.lastUpdated = new Date(0L);
     }
 
-    public boolean add(Status status) {
-        if (status == null) {
+    public boolean add(Object o) {
+        if (o == null) {
             return false;
         }
-        return cache.add(status);
+        return cache.add(o);
     }
 
     public void removeAtIndex(int index) {
@@ -40,12 +40,12 @@ public class TwitterLabCache {
         return cache;
     }
 
-    public void updateCache(List<Status> statuses) {
-        if (statuses == null) {
+    public void updateCache(List list) {
+        if (list == null) {
             return;
         }
         cache.clear();
-        cache.addAll(statuses);
+        cache.addAll(list);
         lastUpdated = new Date();
     }
 
