@@ -67,6 +67,9 @@ public class TwitterLabService {
 
     public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline from cache.");
+        if (keyword == null || keyword.equals("")) {
+            throw new TwitterLabException("Failed to get filtered timeline. Filter keyword cannot be null or empty.");
+        }
         if (cache.size() == 0) {
             updateCache();
         }
