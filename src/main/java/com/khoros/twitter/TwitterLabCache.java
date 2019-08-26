@@ -13,7 +13,7 @@ public class TwitterLabCache {
     private final long TIME_TO_LIVE = 60000; // in milliseconds = 1 min
 
     public TwitterLabCache() {
-        this.cache = new ArrayList<Status>();
+        this.cache = new ArrayList();
         this.lastUpdated = new Date(0L);
     }
 
