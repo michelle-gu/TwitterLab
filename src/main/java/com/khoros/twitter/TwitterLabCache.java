@@ -1,31 +1,28 @@
 package com.khoros.twitter;
 
-import twitter4j.Status;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class TwitterLabCache {
+public class TwitterLabCache<T> {
 
-    private List cache;
+    private Map<T, T> cache;
     private Date lastUpdated;
 
     private final long TIME_TO_LIVE = 60000; // in milliseconds = 1 min
 
     public TwitterLabCache() {
-        this.cache = new ArrayList();
+        this.cache = new TreeMap<T, T>();
         this.lastUpdated = new Date(0L);
     }
 
-    public boolean add(Object o) {
-        if (o == null) {
-            return false;
-        }
-        return cache.add(o);
+    public T get(T key) {
+        return cache.get(key);
     }
 
-    public void removeAtIndex(int index) {
-        cache.remove(index);
+    public T put(T key, T value) {
+        return cache.put(key, value);
     }
 
     public void clear() {
@@ -36,17 +33,16 @@ public class TwitterLabCache {
         return cache.size();
     }
 
-    public List<Status> getCache() {
-        return cache;
+    public T remove(T key) {
+        return cache.remove(key);
     }
 
-    public void updateCache(List list) {
-        if (list == null) {
-            return;
-        }
-        cache.clear();
-        cache.addAll(list);
-        lastUpdated = new Date();
+    public Collection<T> values() {
+        return cache.values();
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public boolean canUpdateCache() {
