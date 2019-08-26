@@ -40,7 +40,7 @@ public class TwitterLabService {
             if (message != null && message.length() > 0 && message.length() <= CHAR_LIMIT) {
                 Status status = twitter.updateStatus(message);
                 LOGGER.info("Successfully posted tweet: " + message);
-                updateCache();
+                cache.clear();
                 return status;
             } else if (message == null) {
                 LOGGER.warn("Failed to post tweet. " + JSON_FORMAT_STR);
@@ -57,7 +57,7 @@ public class TwitterLabService {
 
     public List<Post> getTimeline() throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline from cache.");
-        if (cache.getLastUpdated().getTime() == 0L) {
+        if (cache == null || cache.size() == 0) {
             updateCache();
         }
         List<Post> postTimeline = new ArrayList<Post>(cache.values());
@@ -67,7 +67,7 @@ public class TwitterLabService {
 
     public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline from cache.");
-        if (cache.getLastUpdated().getTime() == 0L) {
+        if (cache == null || cache.size() == 0) {
             updateCache();
         }
         List<Post> postTimeline = new ArrayList<Post>(cache.values());
@@ -95,8 +95,7 @@ public class TwitterLabService {
                                             status.getUser().getProfileImageURL()),
                                     status.getCreatedAt())))
                     .collect(toList());
-            cache.setLastUpdated(new Date());
-            LOGGER.info("Updated cache.");
+            LOGGER.info("Updateds cache.");
         } catch (TwitterException e) {
             LOGGER.error("Failed to retrieve timeline.", e);
             throw new TwitterLabException(TIMELINE_EXCEPTION_STR);

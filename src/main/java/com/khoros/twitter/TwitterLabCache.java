@@ -8,11 +8,9 @@ import java.util.TreeMap;
 public class TwitterLabCache<T> {
 
     private Map<T, T> cache;
-    private Date lastUpdated;
 
     public TwitterLabCache() {
         this.cache = new TreeMap<T, T>();
-        this.lastUpdated = new Date(0L);
     }
 
     public T get(T key) {
@@ -37,14 +35,6 @@ public class TwitterLabCache<T> {
 
     public Collection<T> values() {
         return cache.values();
-    }
-
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
     }
 
 }
