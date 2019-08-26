@@ -10,8 +10,6 @@ public class TwitterLabCache<T> {
     private Map<T, T> cache;
     private Date lastUpdated;
 
-    private final long TIME_TO_LIVE = 60000; // in milliseconds = 1 min
-
     public TwitterLabCache() {
         this.cache = new TreeMap<T, T>();
         this.lastUpdated = new Date(0L);
@@ -41,12 +39,12 @@ public class TwitterLabCache<T> {
         return cache.values();
     }
 
-    public void setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public Date getLastUpdated() {
+        return lastUpdated;
     }
 
-    public boolean canUpdateCache() {
-        return (new Date().getTime() - lastUpdated.getTime()) > TIME_TO_LIVE;
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
 }
