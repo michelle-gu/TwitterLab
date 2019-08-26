@@ -57,7 +57,7 @@ public class TwitterLabService {
 
     public List<Post> getTimeline() throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline from cache.");
-        if (cache == null || cache.size() == 0) {
+        if (cache.size() == 0) {
             updateCache();
         }
         List<Post> postTimeline = new ArrayList<Post>(cache.values());
@@ -67,7 +67,7 @@ public class TwitterLabService {
 
     public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline from cache.");
-        if (cache == null || cache.size() == 0) {
+        if (cache.size() == 0) {
             updateCache();
         }
         List<Post> postTimeline = new ArrayList<Post>(cache.values());
@@ -84,7 +84,6 @@ public class TwitterLabService {
     private void updateCache() throws TwitterLabException {
         try {
             List<Status> statusTimeline = twitter.getHomeTimeline();
-            cache.clear();
             Optional.ofNullable(statusTimeline)
                     .map(List::stream)
                     .orElseGet(Stream::empty)
@@ -95,7 +94,7 @@ public class TwitterLabService {
                                             status.getUser().getProfileImageURL()),
                                     status.getCreatedAt())))
                     .collect(toList());
-            LOGGER.info("Updateds cache.");
+            LOGGER.info("Updated cache.");
         } catch (TwitterException e) {
             LOGGER.error("Failed to retrieve timeline.", e);
             throw new TwitterLabException(TIMELINE_EXCEPTION_STR);
