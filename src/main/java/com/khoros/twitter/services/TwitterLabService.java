@@ -10,7 +10,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import javax.inject.Inject;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
@@ -57,62 +56,54 @@ public class TwitterLabService {
 
     public List<Post> getTimeline() throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline.");
-        List<Status> statusTimeline = getCachedTimeline();
-        List<Post> postTimeline = Optional.ofNullable(statusTimeline)
-                                          .map(List::stream)
-                                          .orElseGet(Stream::empty)
-                                          .map(s -> new Post(s.getText(),
-                                                             new User(s.getUser().getScreenName(),
-                                                                      s.getUser().getName(),
-                                                                      s.getUser().getProfileImageURL()),
-                                                             s.getCreatedAt()))
-                                          .collect(toList());
+        List<Post> postTimeline = getCachedTimeline();
         LOGGER.info("Successfully retrieved home timeline.");
         return postTimeline;
     }
 
     public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline.");
-        List<Status> statusTimeline = getCachedTimeline();
+        List<Post> postTimeline = getCachedTimeline();
         LOGGER.info("Filtering home timeline with keyword: " + keyword);
-        List<Post> filteredPostTimeline = Optional.ofNullable(statusTimeline)
+        List<Post> filteredPostTimeline = Optional.ofNullable(postTimeline)
                                                   .map(List::stream)
                                                   .orElseGet(Stream::empty)
-                                                  .filter(s -> s.getText().toLowerCase().contains(keyword))
-                                                  .map(s -> new Post(s.getText(),
-                                                                     new User(s.getUser().getScreenName(),
-                                                                              s.getUser().getName(),
-                                                                              s.getUser().getProfileImageURL()),
-                                                                     s.getCreatedAt()))
+                                                  .filter(post -> post.getMessage().toLowerCase().contains(keyword))
                                                   .collect(toList());
         LOGGER.info("Successfully retrieved home timeline.");
         return Optional.of(filteredPostTimeline);
     }
 
     // Gets cached timeline and updates cache as needed
-    private List<Status> getCachedTimeline() throws TwitterLabException {
-        List<Status> statusTimeline;
+    private List<Post> getCachedTimeline() throws TwitterLabException {
+        List<Post> postTimeline;
         try {
-            statusTimeline = twitter.getHomeTimeline();
+            List<Status> statusTimeline = twitter.getHomeTimeline();
             cache.clear();
             Optional.ofNullable(statusTimeline)
                     .map(List::stream)
                     .orElseGet(Stream::empty)
-                    .map(status -> cache.put(status.getId(), status))
+                    .map(status -> cache.put(status.getId(),
+                                             new Post(status.getText(),
+                                                      new User(status.getUser().getScreenName(),
+                                                               status.getUser().getName(),
+                                                               status.getUser().getProfileImageURL()),
+                                                      status.getCreatedAt())))
                     .collect(toList());
+            postTimeline = new ArrayList<Post>(cache.values());
             cache.setLastUpdated(new Date());
             LOGGER.info("Updated cache.");
         } catch (TwitterException e) {
             LOGGER.info("Failed to get timeline from Twitter. Attempting to retrieve from cache.");
-            statusTimeline = new ArrayList<Status>(cache.values());
-            if (statusTimeline.isEmpty()) {
+            postTimeline = new ArrayList<Post>(cache.values());
+            if (postTimeline.isEmpty()) {
                 LOGGER.error("Failed to retrieve from both Twitter and cache.", e);
                 throw new TwitterLabException(TIMELINE_EXCEPTION_STR);
             } else {
                 LOGGER.info("Retrieved from cache.");
             }
         }
-        return statusTimeline;
+        return postTimeline;
     }
 
 }
