@@ -1,5 +1,6 @@
 package com.khoros.twitter.services;
 
+import com.khoros.twitter.TwitterLabCache;
 import com.khoros.twitter.models.Post;
 import com.khoros.twitter.models.User;
 import org.slf4j.Logger;
@@ -8,8 +9,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
@@ -22,12 +22,15 @@ public class TwitterLabService {
     public static final String EXCEPTION_STR = "Error posting tweet. Try again later!";
     public static final String TIMELINE_EXCEPTION_STR = "Error getting home timeline. Try again later!";
 
+    private TwitterLabCache cache;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TwitterLabService.class);
 
     private Twitter twitter;
 
     @Inject
     public TwitterLabService(Twitter twitter) {
+        cache = new TwitterLabCache();
         this.twitter = twitter;
     }
 
@@ -53,46 +56,54 @@ public class TwitterLabService {
 
     public List<Post> getTimeline() throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline.");
-        try {
-            List<Status> statusTimeline = twitter.getHomeTimeline();
-            List<Post> postTimeline = Optional.ofNullable(statusTimeline)
-                                              .map(List::stream)
-                                              .orElseGet(Stream::empty)
-                                              .map(s -> new Post(s.getText(),
-                                                                 new User(s.getUser().getScreenName(),
-                                                                          s.getUser().getName(),
-                                                                          s.getUser().getProfileImageURL()),
-                                                                 s.getCreatedAt()))
-                                              .collect(toList());
-            LOGGER.info("Successfully retrieved home timeline.");
-            return postTimeline;
-        } catch (TwitterException e) {
-            LOGGER.error("Failed to get timeline. ", e);
-            throw new TwitterLabException(TIMELINE_EXCEPTION_STR);
-        }
+        List<Post> postTimeline = getCachedTimeline();
+        LOGGER.info("Successfully retrieved home timeline.");
+        return postTimeline;
     }
 
-    public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException{
+    public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline.");
+        List<Post> postTimeline = getCachedTimeline();
+        LOGGER.info("Filtering home timeline with keyword: " + keyword);
+        List<Post> filteredPostTimeline = Optional.ofNullable(postTimeline)
+                                                  .map(List::stream)
+                                                  .orElseGet(Stream::empty)
+                                                  .filter(post -> post.getMessage().toLowerCase().contains(keyword))
+                                                  .collect(toList());
+        LOGGER.info("Successfully retrieved home timeline.");
+        return Optional.of(filteredPostTimeline);
+    }
+
+    // Gets cached timeline and updates cache as needed
+    private List<Post> getCachedTimeline() throws TwitterLabException {
+        List<Post> postTimeline;
         try {
             List<Status> statusTimeline = twitter.getHomeTimeline();
-            LOGGER.info("Filtering home timeline with keyword: " + keyword);
-            List<Post> filteredPostTimeline = Optional.ofNullable(statusTimeline)
-                                                      .map(List::stream)
-                                                      .orElseGet(Stream::empty)
-                                                      .filter(s -> s.getText().toLowerCase().contains(keyword))
-                                                      .map(s -> new Post(s.getText(),
-                                                                         new User(s.getUser().getScreenName(),
-                                                                                  s.getUser().getName(),
-                                                                                  s.getUser().getProfileImageURL()),
-                                                                         s.getCreatedAt()))
-                                                      .collect(toList());
-            LOGGER.info("Successfully retrieved home timeline.");
-            return Optional.of(filteredPostTimeline);
+            cache.clear();
+            Optional.ofNullable(statusTimeline)
+                    .map(List::stream)
+                    .orElseGet(Stream::empty)
+                    .map(status -> cache.put(status.getId(),
+                                             new Post(status.getText(),
+                                                      new User(status.getUser().getScreenName(),
+                                                               status.getUser().getName(),
+                                                               status.getUser().getProfileImageURL()),
+                                                      status.getCreatedAt())))
+                    .collect(toList());
+            postTimeline = new ArrayList<Post>(cache.values());
+            cache.setLastUpdated(new Date());
+            LOGGER.info("Updated cache.");
         } catch (TwitterException e) {
-            LOGGER.error("Failed to get timeline. ", e);
-            throw new TwitterLabException(TIMELINE_EXCEPTION_STR);
+            LOGGER.info("Failed to get timeline from Twitter. Attempting to retrieve from cache.");
+            postTimeline = new ArrayList<Post>(cache.values());
+            if (postTimeline.isEmpty()) {
+                LOGGER.error("Failed to retrieve from both Twitter and cache.", e);
+                throw new TwitterLabException(TIMELINE_EXCEPTION_STR);
+            } else {
+                LOGGER.info("Retrieved from cache.");
+            }
         }
+        return postTimeline;
     }
 
 }
