@@ -21,6 +21,7 @@ public class TwitterLabService {
     public static final String JSON_FORMAT_STR = "Invalid JSON - use format: {\"message\":\"<your tweet here>\"}";
     public static final String EXCEPTION_STR = "Error posting tweet. Try again later!";
     public static final String TIMELINE_EXCEPTION_STR = "Error getting home timeline. Try again later!";
+    public static final String NULL_KEYWORD_STR = "Failed to get filtered timeline. Filter keyword cannot be null or empty.";
 
     private TwitterLabCache cache;
 
@@ -68,7 +69,7 @@ public class TwitterLabService {
     public Optional<List<Post>> getFilteredTimeline(String keyword) throws TwitterLabException {
         LOGGER.info("Attempting to retrieve home timeline from cache.");
         if (keyword == null || keyword.equals("")) {
-            throw new TwitterLabException("Failed to get filtered timeline. Filter keyword cannot be null or empty.");
+            throw new TwitterLabException(NULL_KEYWORD_STR);
         }
         if (cache.size() == 0) {
             updateCache();

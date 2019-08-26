@@ -53,10 +53,11 @@ public class TwitterLabResourceTest {
     }
 
     @Test
-    public void testGetFilteredTimelineWithNullFilter() {
+    public void testGetFilteredTimelineWithNullFilter() throws TwitterLabException {
+        when(mockedTwitterLabService.getFilteredTimeline(null)).thenThrow(new TwitterLabException(TwitterLabService.NULL_KEYWORD_STR));
         Response testResponse = twitterLabResource.getFilteredTimeline(null);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
-        assertEquals(TwitterLabResource.NULL_KEYWORD_STR, ((StatusMessage)testResponse.getEntity()).getStatus());
+        assertEquals(TwitterLabService.NULL_KEYWORD_STR, ((StatusMessage)testResponse.getEntity()).getStatus());
     }
 
     @Test
