@@ -49,7 +49,7 @@ public class TwitterLabServiceTest {
         Optional<List<Post>> testTimeline = twitterLabService.getFilteredTimeline("test");
     }
 
-    @Test
+    @Test (expected = TwitterLabException.class)
     public void testGetFilteredTimelineWithEmptyFilter() throws TwitterLabException, TwitterException {
         Optional<List<Post>> testTimeline = twitterLabService.getFilteredTimeline("");
         verify(mockedTwitter).getHomeTimeline();

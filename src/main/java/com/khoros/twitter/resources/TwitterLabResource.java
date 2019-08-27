@@ -19,8 +19,6 @@ public class TwitterLabResource {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TwitterLabResource.class);
 
-    static final String NULL_KEYWORD_STR = "Must define keyword parameter to filter on.";
-
     private TwitterLabService twitterLabService;
 
     @Inject
@@ -69,12 +67,6 @@ public class TwitterLabResource {
     @Timed
     public Response getFilteredTimeline(@QueryParam("keyword") String keyword) {
         LOGGER.trace("Hitting getFilteredTimeline endpoint");
-        if (keyword == null) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new StatusMessage(NULL_KEYWORD_STR))
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
-        }
         try {
             return twitterLabService.getFilteredTimeline(keyword)
                     .map(filteredTimeline -> Response.status(Response.Status.OK)
