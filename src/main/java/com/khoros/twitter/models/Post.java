@@ -9,17 +9,15 @@ public class Post {
     private String message;
     private User user;
     private Date createdAt;
-    private String url;
 
     public Post() {
         // Jackson deserialization
     }
 
-    public Post(String message, User user, Date createdAt, String url) {
+    public Post(String message, User user, Date createdAt) {
         this.message = message;
         this.user = user;
         this.createdAt = createdAt;
-        this.url = url;
     }
 
     @JsonProperty
@@ -50,16 +48,6 @@ public class Post {
     @JsonProperty
     public Date getCreatedAt() {
         return createdAt;
-    }
-
-    @JsonProperty
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @JsonProperty
-    public String getUrl() {
-        return url;
     }
 
 }

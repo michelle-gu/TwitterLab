@@ -96,9 +96,7 @@ public class TwitterLabService {
                                     new User(status.getUser().getScreenName(),
                                             status.getUser().getName(),
                                             status.getUser().getProfileImageURL()),
-                                    status.getCreatedAt(),
-                                    "https://twitter.com/" + status.getUser().getScreenName()
-                                            + "/status/" + status.getId())))
+                                    status.getCreatedAt())))
                     .collect(toList());
             LOGGER.info("Updated cache.");
         } catch (TwitterException e) {

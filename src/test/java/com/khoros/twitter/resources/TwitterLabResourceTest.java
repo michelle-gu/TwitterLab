@@ -72,7 +72,7 @@ public class TwitterLabResourceTest {
     @Test
     public void testPostEmptyTweet() throws TwitterLabException {
         User user = new User("test", "test", "");
-        Post post = new Post("", user, new Date(), "");
+        Post post = new Post("", user, new Date());
         when(mockedTwitterLabService.postTweet(post.getMessage())).thenThrow(new TwitterLabException(TwitterLabService.CHAR_LIMIT_STR));
         Response testResponse = twitterLabResource.postTweet(post);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
@@ -82,7 +82,7 @@ public class TwitterLabResourceTest {
     @Test
     public void testPostValidTweet() {
         User user = new User("test", "test", "");
-        Post post = new Post("Test text", user, new Date(), "");
+        Post post = new Post("Test text", user, new Date());
         Response testResponse = twitterLabResource.postTweet(post);
         assertEquals(Response.Status.OK.getStatusCode(), testResponse.getStatus());
     }
@@ -90,7 +90,7 @@ public class TwitterLabResourceTest {
     @Test
     public void testPostLongTweet() throws TwitterLabException {
         User user = new User("test", "test", "");
-        Post post = new Post(StringUtils.repeat("*", TwitterLabService.CHAR_LIMIT + 1), user, new Date(), "");
+        Post post = new Post(StringUtils.repeat("*", TwitterLabService.CHAR_LIMIT + 1), user, new Date());
         when(mockedTwitterLabService.postTweet(post.getMessage())).thenThrow(new TwitterLabException(TwitterLabService.CHAR_LIMIT_STR));
         Response testResponse = twitterLabResource.postTweet(post);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
@@ -100,7 +100,7 @@ public class TwitterLabResourceTest {
     @Test
     public void testPostTweetException() throws TwitterLabException {
         User user = new User("test", "test", "");
-        Post post = new Post("Test tweet", user, new Date(), "");
+        Post post = new Post("Test tweet", user, new Date());
         when(mockedTwitterLabService.postTweet(post.getMessage())).thenThrow(new TwitterLabException(TwitterLabService.EXCEPTION_STR));
         Response testResponse = twitterLabResource.postTweet(post);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
@@ -111,7 +111,7 @@ public class TwitterLabResourceTest {
     public void testPostNullTweet() throws TwitterLabException {
         // Ex: Invalid JSON passed in or null text
         User user = new User("test", "test", "");
-        Post post = new Post(null, user, new Date(), "");
+        Post post = new Post(null, user, new Date());
         when(mockedTwitterLabService.postTweet(post.getMessage())).thenThrow(new TwitterLabException(TwitterLabService.JSON_FORMAT_STR));
         Response testResponse = twitterLabResource.postTweet(post);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), testResponse.getStatus());
