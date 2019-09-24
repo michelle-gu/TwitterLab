@@ -13,6 +13,7 @@ To run program (from command line):
 2) To post tweet: `curl -POST "localhost:8080/api/1.0/twitter/tweet" -H "Content-Type: application/json" -d '{"message":"<Your tweet here>"}'`
     <br>To get timeline: `curl -GET "localhost:8080/api/1.0/twitter/timeline"`
     <br>To get filtered timeline: `curl -GET "localhost:8080/api/1.0/twitter/timeline/filter?keyword=<Your keyword here>`
+    <br>To get user timeline: `curl -GET "localhost:8080/api/1.0/twitter/user-timeline`
     
 To run tests:
 1) `mvn test` or `mvn clean install`
