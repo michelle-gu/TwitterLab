@@ -55,6 +55,19 @@ public class TwitterLabServiceTest {
         verify(mockedTwitter).getHomeTimeline();
     }
 
+    // Get user timeline tests
+    @Test
+    public void testGetUserTimeline() throws TwitterLabException, TwitterException {
+        List<Post> testTimeline = twitterLabService.getUserTimeline();
+        verify(mockedTwitter).getUserTimeline();
+    }
+
+    @Test (expected = TwitterLabException.class)
+    public void testGetUserTimelineException() throws TwitterLabException, TwitterException {
+        when(mockedTwitter.getUserTimeline()).thenThrow(new TwitterException("Test Exception"));
+        List<Post> testTimeline = twitterLabService.getUserTimeline();
+    }
+
     // Post tweet tests
     @Test
     public void testPostTweet() throws TwitterException, TwitterLabException {
