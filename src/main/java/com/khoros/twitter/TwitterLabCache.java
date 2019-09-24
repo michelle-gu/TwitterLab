@@ -2,21 +2,21 @@ package com.khoros.twitter;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.HashMap;
 
-public class TwitterLabCache<T> {
+public class TwitterLabCache<K, V> {
 
-    private Map<T, T> cache;
+    private Map<K, V> cache;
 
     public TwitterLabCache() {
-        this.cache = new TreeMap<T, T>();
+        this.cache = new HashMap<K, V>();
     }
 
-    public T get(T key) {
+    public V get(K key) {
         return cache.get(key);
     }
 
-    public T put(T key, T value) {
+    public V put(K key, V value) {
         return cache.put(key, value);
     }
 
@@ -28,11 +28,15 @@ public class TwitterLabCache<T> {
         return cache.size();
     }
 
-    public T remove(T key) {
+    public boolean containsKey(K key) {
+        return cache.containsKey(key);
+    }
+
+    public V remove(K key) {
         return cache.remove(key);
     }
 
-    public Collection<T> values() {
+    public Collection<V> values() {
         return cache.values();
     }
 

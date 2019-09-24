@@ -1,6 +1,5 @@
 package com.khoros.twitter;
 
-import com.khoros.twitter.services.TwitterLabService;
 import dagger.Module;
 import dagger.Provides;
 import org.slf4j.Logger;

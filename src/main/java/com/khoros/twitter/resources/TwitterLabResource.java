@@ -62,6 +62,24 @@ public class TwitterLabResource {
         }
     }
 
+    @Path("user-timeline")
+    @GET
+    @Timed
+    public Response getUserTimeline() {
+        LOGGER.info("Hitting getUserTimeline endpoint");
+        try {
+            return Response.status(Response.Status.OK)
+                    .entity(new Timeline(twitterLabService.getUserTimeline()))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (TwitterLabException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new StatusMessage(e.getMessage()))
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+    }
+
     @Path("timeline/filter")
     @GET
     @Timed
