@@ -110,7 +110,7 @@ public class TwitterLabService {
         List<Post> filteredPostTimeline = Optional.ofNullable(postTimeline)
                 .map(List::stream)
                 .orElseGet(Stream::empty)
-                .filter(post -> post.getMessage().toLowerCase().contains(keyword))
+                .filter(post -> post.getMessage().toLowerCase().contains(keyword.toLowerCase()))
                 .collect(toList());
         LOGGER.info("Successfully retrieved home timeline from cache.");
         return Optional.of(filteredPostTimeline);
